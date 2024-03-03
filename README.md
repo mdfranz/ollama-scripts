@@ -1,9 +1,11 @@
 # About 
 
-These are instructions and scripts for using [ollamma](https://github.com/ollama/ollama) and installing various models from the [library](https://ollama.com/library)
+These are instructions and scripts for using [ollama](https://github.com/ollama/ollama) and installing various models from the [library](https://ollama.com/library)
 
 
 # GCE Instructions
+
+I've tested this on `T4` and `L4` instances
 
 ## Generic Bookworm (Debian 12)
 
