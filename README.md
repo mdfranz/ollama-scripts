@@ -100,3 +100,7 @@ eval count:           56 token(s)
 eval duration:        1.333866s
 eval rate:            41.98 tokens/s
 ```
+
+# Install Python Libraries
+
+Install [ollama-python](https://github.com/ollama/ollama-python)
