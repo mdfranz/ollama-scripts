@@ -3,7 +3,7 @@
 import ollama,csv,datetime
 
 # global so we can use it as a title for CSV
-STAT_FIELDS = ['model','total_duration','load_duration','prompt_eval_duration','eval_count','eval_duration']
+STAT_FIELDS = ['model','total_duration','load_duration','prompt_eval_duration','eval_duration','eval_count','prompt_eval_count']
 
 def get_stats_row(r):
   """Extracts interesting model execution stats and puts in a line for CSV"""
@@ -25,8 +25,12 @@ if __name__ == "__main__":
     with open(statfile+".csv","w") as csvfile:
       writer = csv.writer(csvfile)
       writer.writerow(STAT_FIELDS)
+
       for m in  ollama.list()['models']:
         m_name = (m['name'])
+        # Skip for any coding models installed
+        if m_name in ['codellama:code','wizardcoder:latest','wizardcoder:python','duckdb-nsql:7b']:
+          continue
 
         print("\n\n****** ",m_name,"******")
         r = ollama.generate(model=m_name,prompt=p)
