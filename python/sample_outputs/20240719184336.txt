@@ -1,0 +1,137 @@
+PROMPT:write a shell script that returns the AWS account I am running and my ARN 
+
+****** codestral:latest******
+ Below is an example of a bash script that will return the AWS Account ID and the ARN of the current user who is running the script. This script uses AWS CLI commands.
+
+Make sure to replace `<your_region>` with your AWS region.
+
+```bash
+#!/bin/bash
+
+# Get AWS Account ID
+ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+
+# Get ARN of current user
+ARN=$(aws sts get-caller-identity --query "Arn" --output text)
+
+echo "AWS Account ID: $ACCOUNT_ID"
+echo "ARN: $ARN"
+```
+
+You can save this script to a file, for example, `account_info.sh`, then make it executable with the command `chmod +x account_info.sh`. Run the script using `./account_info.sh`. This will print out your AWS Account ID and ARN.
+
+****** deepseek-coder-v2:latest******
+ To create a shell script that retrieves information about the current AWS account you are running, including the Account ID and ARN, you can use the AWS CLI. The following is a simple shell script using Bash to accomplish this:
+
+```bash
+#!/bin/bash
+
+# Function to get the AWS Account ID
+get_account_id() {
+    echo "Fetching AWS Account ID..."
+    ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+    if [ -z "$ACCOUNT_ID" ]; then
+        echo "Failed to retrieve the AWS Account ID." >&2
+        exit 1
+    else
+        echo "AWS Account ID: $ACCOUNT_ID"
+    fi
+}
+
+# Function to get the ARN
+get_arn() {
+    echo "Fetching ARN..."
+    ARN=$(aws sts get-caller-identity --query 'Arn' --output text)
+    if [ -z "$ARN" ]; then
+        echo "Failed to retrieve the ARN." >&2
+        exit 1
+    else
+        echo "ARN: $ARN"
+    fi
+}
+
+# Main script execution
+echo "Running script for AWS Account and ARN information..."
+get_account_id
+get_arn
+```
+
+### Explanation:
+1. **Shebang (`#!/bin/bash`)**: This line tells the system to use Bash as the interpreter for this script.
+2. **Functions `get_account_id` and `get_arn`**: These functions use the AWS CLI command `aws sts get-caller-identity` to fetch the Account ID and ARN, respectively. The `--query` option is used to specify which part of the JSON response to extract, and `--output text` ensures that the output is plain text.
+3. **Error Handling**: If either command fails (e.g., due to an AWS CLI configuration issue or network problem), the script will print an error message and exit with a status code indicating failure.
+4. **Main Script Execution**: The script starts by printing a header, then calls both functions to fetch and display the Account ID and ARN.
+
+### Usage:
+1. Save this script to a file, for example, `get_aws_info.sh`.
+2. Make the script executable with the command: `chmod +x get_aws_info.sh`.
+3. Run the script using: `./get_aws_info.sh`.
+
+This script assumes that you have already configured the AWS CLI and have appropriate permissions to execute identity-related commands. If you encounter any issues, ensure that your AWS CLI is properly configured and consider checking the output of the script for detailed error messages.
+
+****** gemma2:latest******
+```bash
+#!/bin/bash
+
+# Get AWS account ID
+account_id=$(aws sts get-caller-identity --query 'Account' --output text)
+
+# Get ARN
+arn=$(aws sts get-caller-identity --query 'Arn' --output text)
+
+# Print the results
+echo "AWS Account ID: $account_id"
+echo "ARN: $arn"
+```
+
+**Explanation:**
+
+1. **`#!/bin/bash`**: This line specifies that the script should be executed using the bash shell.
+2. **`account_id=$(aws sts get-caller-identity --query 'Account' --output text)`**: 
+   - `aws sts get-caller-identity`: This command uses the AWS CLI to retrieve the caller identity information.
+   - `--query 'Account'`:  This option specifies that we want to extract the "Account" field from the response.
+   - `--output text`: This option ensures the output is in plain text format.
+   - The `$(...)` part executes the command and stores its output in the `account_id` variable.
+
+3. **`arn=$(aws sts get-caller-identity --query 'Arn' --output text)`**: 
+   - Similar to the previous line, this retrieves the ARN (Amazon Resource Name) from the caller identity information.
+
+4. **`echo "AWS Account ID: $account_id"`**: Prints the retrieved account ID with a descriptive label.
+5. **`echo "ARN: $arn"`**: Prints the retrieved ARN with a descriptive label.
+
+
+**How to use:**
+
+1. **Save the script:** Create a new file (e.g., `get_aws_info.sh`) and paste the code into it.
+2. **Make it executable:**  `chmod +x get_aws_info.sh` 
+3. **Run the script:** `./get_aws_info.sh`
+
+**Important:**
+
+- This script requires that you have the AWS CLI installed and configured on your system.
+- Make sure you have the necessary permissions to use the `sts:GetCallerIdentity` API action.
+
+
+Let me know if you have any other questions!
+
+****** llama3:latest******
+Here is a sample shell script that uses `aws sts get-caller-identity` to retrieve your AWS account ID and IAM user ARN:
+```bash
+#!/bin/bash
+
+# Get the current AWS account ID and IAM user ARN using STS
+account_id=$(aws sts get-caller-identity --query 'Account' --output text)
+arn=$(aws sts get-caller-identity --query 'Arn' --output text)
+
+echo "AWS Account ID: ${account_id}"
+echo "IAM User ARN: ${arn}"
+```
+Let me explain what this script does:
+
+1. `aws sts get-caller-identity`: This AWS CLI command returns information about the caller, including the account ID and IAM user ARN.
+2. `--query 'Account'` and `--query 'Arn'`: These options specify which fields in the response we want to extract. In this case, we're interested in the `Account` field (which contains the AWS account ID) and the `Arn` field (which contains the IAM user ARN).
+3. `--output text`: This option tells AWS CLI to output the extracted values as plain text, rather than JSON.
+4. The script uses command substitution (`$( )`) to execute the `aws sts get-caller-identity` command and capture its output.
+5. Finally, the script prints out the retrieved account ID and ARN using `echo`.
+
+To use this script, save it to a file (e.g., `get_account_arn.sh`), make the file executable with `chmod +x get_account_arn.sh`, and then run it with `./get_account_arn.sh`. This should print out your AWS account ID and IAM user ARN.
