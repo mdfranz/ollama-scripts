@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import ollama,csv,datetime
+import ollama,csv,datetime,sys
 
 # global so we can use it as a title for CSV
 STAT_FIELDS = ['model','total_duration','load_duration','prompt_eval_duration','eval_duration','eval_count','prompt_eval_count']
@@ -18,7 +18,8 @@ if __name__ == "__main__":
   print ("Getting models!") 
 
   statfile = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-  p = input("What is your question>")
+  # p = input("What is your question>")
+  p = sys.stdin.read()
 
   with open(statfile+".txt","w") as promptfile:
     promptfile.write("PROMPT:"+p)
